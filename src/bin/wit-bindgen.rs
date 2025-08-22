@@ -72,6 +72,16 @@ enum Opt {
         args: Common,
     },
 
+    /// Generate bindings for F# guest modules.
+    #[cfg(feature = "fsharp")]
+    #[command(alias = "f-sharp")]
+    Fsharp {
+        #[clap(flatten)]
+        opts: wit_bindgen_fsharp::Opts,
+        #[clap(flatten)]
+        args: Common,
+    },
+
     // doc-comments are present on `wit_bindgen_test::Opts` for clap to use.
     Test {
         #[clap(flatten)]
@@ -146,6 +156,8 @@ fn main() -> Result<()> {
         }
         #[cfg(feature = "csharp")]
         Opt::Csharp { opts, args } => (opts.build(), args),
+        #[cfg(feature = "fsharp")]
+        Opt::Fsharp { opts, args } => (opts.build(), args),
         Opt::Test { opts } => return opts.run(std::env::args_os().nth(0).unwrap().as_ref()),
     };
 
