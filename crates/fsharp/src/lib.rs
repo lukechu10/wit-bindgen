@@ -1,8 +1,8 @@
 use wit_bindgen_core::WorldGenerator;
 use wit_component::StringEncoding;
 
-mod csharp_ident;
 mod csproj;
+mod fsharp_ident;
 mod function;
 mod interface;
 mod world_generator;

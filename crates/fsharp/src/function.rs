@@ -1,4 +1,4 @@
-use crate::csharp_ident::ToCSharpIdent;
+use crate::fsharp_ident::ToFSharpIdent;
 use crate::interface::{InterfaceGenerator, ParameterType};
 use crate::world_generator::CSharp;
 use heck::ToUpperCamelCase;
@@ -194,7 +194,7 @@ impl<'a, 'b> FunctionBindgen<'a, 'b> {
                     String::new()
                 };
 
-                let method = case_name.to_csharp_ident_upper();
+                let method = case_name.to_fsharp_ident_upper();
 
                 let call = if let Some(position) = generics_position {
                     let (ty, generics) = ty.split_at(position);
@@ -490,7 +490,7 @@ impl Bindgen for FunctionBindgen<'_, '_> {
             Instruction::RecordLower { record, .. } => {
                 let op = &operands[0];
                 for f in record.fields.iter() {
-                    results.push(format!("{}.{}", op, f.name.to_csharp_ident()));
+                    results.push(format!("{}.{}", op, f.name.to_fsharp_ident()));
                 }
             }
             Instruction::RecordLift { ty, name, .. } => {

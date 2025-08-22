@@ -1,4 +1,4 @@
-use crate::csharp_ident::ToCSharpIdent;
+use crate::fsharp_ident::ToFSharpIdent;
 use crate::function::FunctionBindgen;
 use crate::function::ResourceInfo;
 use crate::world_generator::CSharp;
@@ -300,7 +300,7 @@ impl InterfaceGenerator<'_> {
                     if i == 0 && matches!(&func.kind, FunctionKind::Method(_)) {
                         "this".to_owned()
                     } else {
-                        name.to_csharp_ident()
+                        name.to_fsharp_ident()
                     }
                 })
                 .collect(),
@@ -330,7 +330,7 @@ impl InterfaceGenerator<'_> {
             .map(|param| {
                 let ty = self.name_with_qualifier(&param.1, true, parameter_type);
                 let param_name = &param.0;
-                let param_name = param_name.to_csharp_ident();
+                let param_name = param_name.to_fsharp_ident();
                 format!("{ty} {param_name}")
             })
             .collect::<Vec<_>>()
@@ -438,7 +438,7 @@ impl InterfaceGenerator<'_> {
             })
             .map(|(name, ty)| {
                 let ty = self.type_name(ty);
-                let name = name.to_csharp_ident();
+                let name = name.to_fsharp_ident();
                 format!("{ty} {name}")
             })
             .collect::<Vec<String>>()
@@ -914,7 +914,7 @@ impl InterfaceGenerator<'_> {
             })
             .map(|(name, ty)| {
                 let ty = self.type_name_with_qualifier(ty, qualifier);
-                let name = name.to_csharp_ident();
+                let name = name.to_fsharp_ident();
                 format!("{ty} {name}")
             })
             .collect::<Vec<_>>()
@@ -959,7 +959,7 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
                 format!(
                     "{} {}",
                     self.type_name(&field.ty),
-                    field.name.to_csharp_ident()
+                    field.name.to_fsharp_ident()
                 )
             })
             .collect::<Vec<_>>()
@@ -969,7 +969,7 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
             .fields
             .iter()
             .map(|field| {
-                let name = field.name.to_csharp_ident();
+                let name = field.name.to_fsharp_ident();
                 format!("this.{name} = {name};")
             })
             .collect::<Vec<_>>()
@@ -985,7 +985,7 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
                     format!(
                         "{access} readonly {} {};",
                         self.type_name(&field.ty),
-                        field.name.to_csharp_ident()
+                        field.name.to_fsharp_ident()
                     )
                 })
                 .collect::<Vec<_>>()
@@ -1061,8 +1061,8 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
             .cases
             .iter()
             .map(|case| {
-                let case_name = case.name.to_csharp_ident();
-                let tag = case.name.to_csharp_ident_upper();
+                let case_name = case.name.to_fsharp_ident();
+                let tag = case.name.to_fsharp_ident_upper();
                 let (parameter, argument) = if let Some(ty) = self.non_empty_type(case.ty.as_ref())
                 {
                     (
@@ -1089,7 +1089,7 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
             .filter_map(|case| {
                 self.non_empty_type(case.ty.as_ref()).map(|ty| {
                     let case_name = case.name.to_upper_camel_case();
-                    let tag = case.name.to_csharp_ident_upper();
+                    let tag = case.name.to_fsharp_ident_upper();
                     let ty = self.type_name(ty);
                     format!(
                         r#"{access} {ty} As{case_name}
@@ -1114,7 +1114,7 @@ impl<'a> CoreInterfaceGenerator<'a> for InterfaceGenerator<'a> {
             .iter()
             .enumerate()
             .map(|(i, case)| {
-                let tag = case.name.to_csharp_ident_upper();
+                let tag = case.name.to_fsharp_ident_upper();
                 format!("{access} const {tag_type} {tag} = {i};")
             })
             .collect::<Vec<_>>()

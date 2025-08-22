@@ -1,4 +1,4 @@
-use crate::csharp_ident::ToCSharpIdent;
+use crate::fsharp_ident::ToFSharpIdent;
 use crate::function::ResourceInfo;
 use crate::interface::{InterfaceFragment, InterfaceGenerator, InterfaceTypeAndFragments};
 use crate::{CSharpRuntime, Opts};
@@ -807,8 +807,8 @@ fn interface_name(
         Some(name) => {
             let mut ns = format!(
                 "{}.{}.",
-                name.namespace.to_csharp_ident(),
-                name.name.to_csharp_ident()
+                name.namespace.to_fsharp_ident(),
+                name.name.to_fsharp_ident()
             );
 
             if let Some(version) = &name.version {
